@@ -1,10 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from 'recharts';
 import { Slider } from '../components/ui/slider';
-import { Button } from '../components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '../components/ui/card';
-import { Alert, AlertDescription, AlertTitle } from '../components/ui/alert';
-import { RefreshCw, Lightbulb, GitBranch } from 'lucide-react';
 
 const InconsistentSystems = () => {
   const [m1, setM1] = useState(1);
@@ -46,33 +42,53 @@ const InconsistentSystems = () => {
 
   const isInconsistent = m1 === m2 && b1 !== b2;
 
+  const CustomLegend = () => (
+    <div className="text-center mt-2">
+      <p className={`font-medium ${isInconsistent ? 'text-[#008545]' : 'text-yellow-500'}`}>
+        {isInconsistent ? "The equations are inconsistent" : "The equations are not inconsistent"}
+      </p>
+    </div>
+  );
+
   return (
-    <div className="bg-gray-100 p-8 min-h-screen">
-      <Card className="w-full max-w-2xl mx-auto shadow-md bg-white">
-        <CardHeader className="bg-sky-100 text-sky-800">
-          <div className="flex items-center justify-between">
-            <CardTitle className="text-3xl font-bold">Inconsistent Equations Simulator</CardTitle>
-            <GitBranch size={40} className="text-sky-600" />
+    <div className="w-[500px] h-auto mx-auto shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-2px_rgba(0,0,0,0.1),0_0_0_1px_rgba(0,0,0,0.05)] bg-white rounded-lg overflow-hidden">
+      <div className="p-4">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-[#5750E3] text-sm font-medium select-none">Inconsistent Systems Simulator</h2>
+          <button
+            onClick={handleReset}
+            className="text-gray-500 hover:text-gray-700 text-sm px-3 py-1 rounded border border-gray-300 hover:border-gray-400 transition-colors"
+          >
+            Reset
+          </button>
+        </div>
+
+        <div className="space-y-6">
+          <div className="h-80 w-full bg-white p-4 rounded-lg shadow">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={generateData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis type="number" dataKey="x" domain={[-10, 10]} tickCount={11} />
+                <YAxis type="number" domain={[-10, 10]} tickCount={11} />
+                <Tooltip content={<CustomTooltip />} />
+                <Legend content={<CustomLegend />} />
+                <ReferenceLine x={0} stroke="#666" />
+                <ReferenceLine y={0} stroke="#666" />
+                <Line type="monotone" dataKey="y1" stroke="#8884d8" name="Equation 1" dot={false} />
+                <Line type="monotone" dataKey="y2" stroke="#82ca9d" name="Equation 2" dot={false} />
+              </LineChart>
+            </ResponsiveContainer>
           </div>
-          <CardDescription className="text-sky-700 text-lg">Explore Systems of Linear Equations!</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6 pt-6">
-          <Alert className="bg-blue-50 border-blue-100">
-            <Lightbulb className="h-4 w-4 text-blue-400" />
-            <AlertTitle className="text-blue-700">Understanding Inconsistent Systems</AlertTitle>
-            <AlertDescription className="text-blue-600">
-              This simulator helps you visualize how changing the slope and y-intercept affects the relationship between two linear equations. Your goal is to create an inconsistent system where the lines are parallel and never intersect.
-            </AlertDescription>
-          </Alert>
-          <div className="space-y-6">
-            <div className="bg-sky-50 p-4 rounded-lg">
-              <h3 className="text-lg font-semibold text-sky-700 mb-4">Equation 1: y = {m1}x + {b1}</h3>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="bg-[#8884d8]/10 p-4 rounded-lg">
+              <h3 className="text-base font-semibold text-[#8884d8] mb-4">Equation 1: y = {m1}x {b1 >= 0 ? '+' : ''}{b1}</h3>
               <div className="space-y-4">
                 <div>
-                  <label className="block mb-2 text-sky-700">Slope (m1):</label>
+                  <label className="block text-xs font-medium text-[#8884d8] mb-2">Slope (m₁):</label>
                   <Slider
                     value={[m1]}
-                    onValueChange={(value) => setM1(value[0])}
+                    onValueChange={(value) => setM1(Number(value[0].toFixed(1)))}
                     min={-5}
                     max={5}
                     step={0.1}
@@ -80,10 +96,10 @@ const InconsistentSystems = () => {
                   />
                 </div>
                 <div>
-                  <label className="block mb-2 text-sky-700">Y-intercept (b1):</label>
+                  <label className="block text-xs font-medium text-[#8884d8] mb-2">Y-intercept (b₁):</label>
                   <Slider
                     value={[b1]}
-                    onValueChange={(value) => setB1(value[0])}
+                    onValueChange={(value) => setB1(Number(value[0].toFixed(1)))}
                     min={-10}
                     max={10}
                     step={0.1}
@@ -92,14 +108,15 @@ const InconsistentSystems = () => {
                 </div>
               </div>
             </div>
-            <div className="bg-sky-50 p-4 rounded-lg">
-              <h3 className="text-lg font-semibold text-sky-700 mb-4">Equation 2: y = {m2}x + {b2}</h3>
+
+            <div className="bg-[#82ca9d]/10 p-4 rounded-lg">
+              <h3 className="text-base font-semibold text-[#82ca9d] mb-4">Equation 2: y = {m2}x {b2 >= 0 ? '+' : ''}{b2}</h3>
               <div className="space-y-4">
                 <div>
-                  <label className="block mb-2 text-sky-700">Slope (m2):</label>
+                  <label className="block text-xs font-medium text-[#82ca9d] mb-2">Slope (m₂):</label>
                   <Slider
                     value={[m2]}
-                    onValueChange={(value) => setM2(value[0])}
+                    onValueChange={(value) => setM2(Number(value[0].toFixed(1)))}
                     min={-5}
                     max={5}
                     step={0.1}
@@ -107,10 +124,10 @@ const InconsistentSystems = () => {
                   />
                 </div>
                 <div>
-                  <label className="block mb-2 text-sky-700">Y-intercept (b2):</label>
+                  <label className="block text-xs font-medium text-[#82ca9d] mb-2">Y-intercept (b₂):</label>
                   <Slider
                     value={[b2]}
-                    onValueChange={(value) => setB2(value[0])}
+                    onValueChange={(value) => setB2(Number(value[0].toFixed(1)))}
                     min={-10}
                     max={10}
                     step={0.1}
@@ -119,43 +136,9 @@ const InconsistentSystems = () => {
                 </div>
               </div>
             </div>
-            <Button 
-              onClick={handleReset} 
-              variant="outline"
-              className="w-full border-sky-300 text-sky-700 hover:bg-sky-50 text-xl py-6"
-            >
-              <RefreshCw className="mr-2" /> Reset to Default
-            </Button>
           </div>
-        </CardContent>
-        <CardFooter className="flex-col items-start bg-gray-50 pt-8">
-          <div className="w-full space-y-6">
-            <div className="bg-white p-4 rounded-lg shadow">
-              <h3 className="text-lg font-semibold text-sky-700 mb-2">System Analysis:</h3>
-              <p className={`mt-2 font-semibold ${isInconsistent ? 'text-green-500' : 'text-red-500'}`}>
-                {isInconsistent 
-                  ? "Congratulations! You've created an inconsistent system. The lines are parallel and will never intersect." 
-                  : "The system is not yet inconsistent. Keep adjusting the parameters to make the lines parallel but not overlapping."}
-              </p>
-            </div>
-            <div className="h-80 w-full bg-white p-4 rounded-lg shadow">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={generateData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis type="number" dataKey="x" domain={[-10, 10]} tickCount={11} />
-                  <YAxis type="number" domain={[-10, 10]} tickCount={11} />
-                  <Tooltip content={<CustomTooltip />} />
-                  <Legend />
-                  <ReferenceLine x={0} stroke="#666" />
-                  <ReferenceLine y={0} stroke="#666" />
-                  <Line type="monotone" dataKey="y1" stroke="#8884d8" name="Equation 1" dot={false} />
-                  <Line type="monotone" dataKey="y2" stroke="#82ca9d" name="Equation 2" dot={false} />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-        </CardFooter>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 };
