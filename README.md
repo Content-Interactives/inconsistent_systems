@@ -1,12 +1,42 @@
-# React + Vite
+# Inconsistent Systems Interactive
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This repository contains the code for the **Inconsistent Systems Interactive**, designed to help students explore and understand the concept of inconsistent systems of linear equations—demonstrating how to identify and analyze systems that have no solution through interactive visuals and instant feedback.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🔗 Live Interactive
 
-## Expanding the ESLint configuration
+Try it out here:  
+👉 https://content-interactives.github.io/inconsistent_systems/
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🌐 Where This Interactive Is Being Used
+
+This interactive is currently featured in the following locations:
+
+- <img width="20" height="20" alt="image" src="https://github.com/user-attachments/assets/5d12571f-8e12-4441-98ab-c0bc94069a96" /> **CK‑12 Intent Response**  
+  - 👉 PRODUCTION: [PENDING]  
+  - 👉 MASTER: [PENDING]
+- 📘 **CK‑12 Flexbooks**  
+  - 👉 [PENDING: Book/lesson link where this interactive appears]
+
+---
+
+## 📚 Standards & Subjects
+
+This interactive aligns with the following topics and standards:
+
+- **📂 Subject Area**: High School Math (Algebra I)  
+- **➗ Topic**: Inconsistent Systems — Understanding how to identify and analyze systems of linear equations that have no solution  
+- **📏 Common Core**:  
+  - **CCSS.MATH.CONTENT.HSA.REI.C.5** – Prove that, given a system of two equations in two variables, no solution exists if and only if the lines are parallel.  
+  - **CCSS.MATH.CONTENT.HSA.REI.C.6** – Solve systems of linear equations exactly and approximately (e.g., with graphs), focusing on pairs of linear equations in two variables.
+
+---
+
+## 🛠️ Developer Notes
+
+- **Built with**: React, Javascript, Tailwind CSS, Vite ([github.com](https://github.com/Content-Interactives/inconsistent_systems))  
+- **Deployed via**: GitHub Pages  
+- **See**: `src/`, `public/`, `package.json`, `vite.config.ts`, and related config files ([github.com](https://github.com/Content-Interactives/inconsistent_systems))
